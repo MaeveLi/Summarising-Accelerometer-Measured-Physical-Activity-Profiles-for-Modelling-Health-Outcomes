@@ -1,9 +1,9 @@
-### R Code for Summarising Accelerometer Measured Physical ###
-###    Activity Profiles for Modelling Health Outcomes     ###
+####### R Code for Summarising Accelerometer Measured Physical #######
+#######    Activity Profiles for Modelling Health Outcomes     #######
 
-###         Dissertation Presented for the Degree of       ###
-###        MSc in Statistics and Operational Research      ###
-###          by  Minqing Li  (Maeve Li)   s2167017         ###
+#######         Dissertation Presented for the Degree of       #######
+#######        MSc in Statistics and Operational Research      #######
+#######          by  Minqing Li  (Maeve Li)   s2167017         #######
 
 # Attach libraries and define used in this thesis
 library(nhanesaccel)
@@ -30,7 +30,7 @@ library(mgcViz)
 
 se <- function(x) sqrt(var(x)/length(x))
 
-#### Derive NHANES  data #### 
+############### Derive NHANES  data ############### 
 # derive nhanes1 data using the package
 nhanes1 <- process_nhanes(waves = 2,  # 05-06 data
                           brevity = 2, # include 5 intensity levels
@@ -66,7 +66,7 @@ for (i in 1:length.wave2){
     wave2_paxinten[i] <- NA
 } 
 
-## Gives two examples of accelerometer PA data#####
+## Gives two examples of accelerometer PA data
 start31199 <- w2[which(w2[,1]==31199, arr.ind = TRUE),2]
 end31199 <- w2[which(w2[,1]==31199, arr.ind = TRUE),3]
 acce31199 <- wave2_paxinten[start31199:end31199]
@@ -117,7 +117,7 @@ plot31223 <- ggplot(d31223, aes(time, intensity)) + geom_line() +
 
 ggarrange(plot31199, plot31223, ncol=2, nrow=1)
 
-#### Merge BMI, sleep and Demographic Data ####
+############### Merge BMI, sleep and Demographic Data ###############
 BMX <- read.xport("E:/Mae/EDIN/Dissertation/Data/NHANES/BMX_D.XPT")
 DEMO <- read.xport("E:/Mae/EDIN/Dissertation/Data/NHANES/DEMO_D.XPT")
 SLQ <- read.xport("E:/Mae/EDIN/Dissertation/Data/NHANES/SLQ_D.XPT")
@@ -203,7 +203,7 @@ chisqres
 # Crammer's V for nominal vars
 sqrt(chisqres$statistic/sum(income_edu)*min(dim(income_edu)-1))
 
-#### Merge for Descriptive Stats ####
+############### Merge for Descriptive Stats ###############
 
 ### 1. Inspecting the whole population ###
 
@@ -379,7 +379,7 @@ sed.gm0.1 <- sed.gm0/(sleep.gm0 + sed.gm0 + lpa.gm0 + mvpa.gm0)
 lpa.gm0.1 <- lpa.gm0/(sleep.gm0 + sed.gm0 + lpa.gm0 + mvpa.gm0)
 mvpa.gm0.1 <- mvpa.gm0/(sleep.gm0 + sed.gm0 + lpa.gm0 + mvpa.gm0)
 
-#### CoDA with age, gender, edu, race and income as covariates ####
+############### CoDA with age, gender, edu, race and income as covariates ###############
 # derive compositional values
 # study sleep
 comp1 <- nhanes3 %>% copy() %>%
@@ -457,7 +457,7 @@ coda4 <- lm(BMI~V1+V2+V3+
               age+gender+race+income+education,data=ilr4)
 summary(coda4) 
 
-#### CoDA with income removed ####
+############### CoDA with income removed ###############
 ## Create income-removed dataset
 nhanes1.31 <- nhanes1.3 %>% copy()%>% .[,income:=NULL]
 nhanes2.1 <- nhanes1.31[complete.cases(nhanes1.31),]
@@ -599,7 +599,7 @@ diag2 <- qplot(sample =.stdresid, data = coda1.1, stat = "qq") +
 
 ggarrange(diag1, diag2, ncol=2, nrow=1)
 
-#### Deltacomp: Estimating differences and plotting changes ####
+############### Using Deltacomp Package: Estimating differences and plotting changes ###############
 # study sleep
 pred_df1 <- predict_delta_comps(
   dataf = nhanes3.1,
@@ -735,7 +735,7 @@ corrplot.mixed(PAcorrp, order = "original",
 # calculate explained variance
 100*with(summary(basemodel1), 1 - deviance/null.deviance)
 
-#### CoDA searching for a new family distribution ####
+############### CoDA searching for a new family distribution ###############
 
 # gamma family with log link (studie sleep)
 coda.gamma.log <- glm(BMI ~ V1 + V2 + V3 +
@@ -829,7 +829,7 @@ datBMI[,valid_days:=nhanes1sub$valid_days] %>% .[,sleepcounts:=sleep*valid_days]
 ## Add sleep to the frequency matrix
 histmt[,1] <- histmt[,1] + datBMI$sleepcounts
 
-####Correlation Plot #####
+############### Correlation Plot ###############
 histcorr <- rcorr(histmt[,-101])
 histcorr_1 <- histcorr$r
 colnames(histcorr_1) <- c("0","","","","","500","","","","",
@@ -858,7 +858,7 @@ corrplot(histcorr_1, type = "lower", order = "original",
          tl.col = "black", tl.srt = 45,
          col=colorRampPalette(c("darkred", "white", "steelblue"))(200))
 
-####GAM Model Fitting #####
+############### GAM Model Fitting ###############
 
 ### GAM, using default basis function "thin plate"
 ## normal with no link 
