@@ -31,7 +31,7 @@ library(mgcViz)
 se <- function(x) sqrt(var(x)/length(x))
 
 
-############### Derive NHANES  data ############### 
+##################### Derive NHANES  data ####################### 
 
 # derive nhanes1 data using the package
 nhanes1 <- process_nhanes(waves = 2,  # 05-06 data
@@ -120,7 +120,7 @@ plot31223 <- ggplot(d31223, aes(time, intensity)) + geom_line() +
 ggarrange(plot31199, plot31223, ncol=2, nrow=1)
 
 
-############### Merge BMI, sleep and Demographic Data ###############
+#################### Merge BMI, sleep and Demographic Data ######################
 
 BMX <- read.xport("E:/Mae/EDIN/Dissertation/Data/NHANES/BMX_D.XPT")
 DEMO <- read.xport("E:/Mae/EDIN/Dissertation/Data/NHANES/DEMO_D.XPT")
@@ -209,7 +209,7 @@ sqrt(chisqres$statistic/sum(income_edu)*min(dim(income_edu)-1))
 
 
 
-############### Merge for Descriptive Stats ###############
+####################### Merge for Descriptive Stats ######################
 
 ### 1. Inspecting the whole population ###
 
@@ -387,7 +387,7 @@ mvpa.gm0.1 <- mvpa.gm0/(sleep.gm0 + sed.gm0 + lpa.gm0 + mvpa.gm0)
 
 
 
-############### CoDA with age, gender, edu, race and income as covariates ###############
+##################### CoDA with age, gender, edu, race and income as covariates #####################
 
 # derive compositional values
 # study sleep
@@ -468,7 +468,7 @@ summary(coda4)
 
 
 
-############### CoDA with income removed ###############
+##################### CoDA with income removed #####################
 
 ## Create income-removed dataset
 nhanes1.31 <- nhanes1.3 %>% copy()%>% .[,income:=NULL]
@@ -613,7 +613,7 @@ ggarrange(diag1, diag2, ncol=2, nrow=1)
 
 
 
-############### Using Deltacomp Package: Estimating differences and plotting changes ###############
+#################### Using Deltacomp Package: Estimating differences and plotting changes ####################
 
 # study sleep
 pred_df1 <- predict_delta_comps(
@@ -716,7 +716,7 @@ plot_delta_comp(
 
 
 
-############### Baseline model ###############
+############################# Baseline model ################################
 
 # derive time-use variables (min/day)
 nhanes3.1[,SB:=1440*sed_percent] %>%
@@ -755,7 +755,7 @@ corrplot.mixed(PAcorrp, order = "original",
 
 
 
-############### CoDA searching for a new family distribution ###############
+########################## CoDA searching for a new family distribution ##########################
 
 # gamma family with log link (studie sleep)
 coda.gamma.log <- glm(BMI ~ V1 + V2 + V3 +
@@ -798,7 +798,7 @@ summary(coda.gamma.log4)
 
 
 
-############### Preprocessing Histogram Data ###############
+################################ Preprocessing Histogram Data ##############################
 
 #### tests with cutpoints
 test1 <- hist(wave2_paxinten,plot = FALSE)
@@ -853,7 +853,7 @@ histmt[,1] <- histmt[,1] + datBMI$sleepcounts
 
 
 
-############### Correlation Plot ###############
+############################### Correlation Plot #############################
 
 
 histcorr <- rcorr(histmt[,-101])
@@ -886,7 +886,7 @@ corrplot(histcorr_1, type = "lower", order = "original",
 
 
 
-############### GAM Model Fitting ###############
+################################# GAM Model Fitting ###############################
 
 ### GAM, using default basis function "thin plate"
 ## normal with no link 
